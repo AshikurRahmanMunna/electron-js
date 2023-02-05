@@ -6,6 +6,8 @@
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec electron .",
+    "debug": "electron --inspect=5858 .",
+    "debug-break": "electron --inspect-brk=5858 .",
     "reset": "git reset --hard"
   },
   "repository": "https://github.com/stackacademytv/master-electron",
@@ -20,5 +22,7 @@
     "electron": "^9.0.0",
     "nodemon": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bcrypt": "^5.1.0"
+  }
 }
