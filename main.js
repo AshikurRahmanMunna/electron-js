@@ -13,6 +13,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
+    frame: false,
+    titleBarStyle: "hidden",
     webPreferences: {
       // --- !! IMPORTANT !! ---
       // Disable 'contextIsolation' to allow 'nodeIntegration'
@@ -21,27 +23,28 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
-  
-  secondaryWindow = new BrowserWindow({
-    width: 600,
-    height: 300,
-    webPreferences: {
-      // --- !! IMPORTANT !! ---
-      // Disable 'contextIsolation' to allow 'nodeIntegration'
-      // 'contextIsolation' defaults to "true" as from Electron v12
-      contextIsolation: false,
-      nodeIntegration: true,
-    },
-    maximizable: false,
-    minimizable: false,
-    resizable: false,
-    parent: mainWindow,
-    vibrancy: true
-  });
+
+  // secondaryWindow = new BrowserWindow({
+  //   width: 600,
+  //   height: 300,
+  //   webPreferences: {
+  //     // --- !! IMPORTANT !! ---
+  //     // Disable 'contextIsolation' to allow 'nodeIntegration'
+  //     // 'contextIsolation' defaults to "true" as from Electron v12
+  //     contextIsolation: false,
+  //     nodeIntegration: true,
+  //   },
+  //   maximizable: false,
+  //   minimizable: false,
+  //   resizable: false,
+  //   parent: mainWindow,
+  //   modal: true,
+  //   // frame: false
+  // });
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
-  secondaryWindow.loadFile("secondary.html");
+  // secondaryWindow.loadFile("secondary.html");
 
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
@@ -50,9 +53,9 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
-  secondaryWindow.on("closed", () => {
-    secondaryWindow = null;
-  });
+  // secondaryWindow.on("closed", () => {
+  //   secondaryWindow = null;
+  // });
 }
 
 // Electron `app` is ready
