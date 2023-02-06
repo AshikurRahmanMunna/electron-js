@@ -20,14 +20,26 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
     },
-    backgroundColor: "#2B2E3B",
-    show: false
+  });
+  
+  secondaryWindow = new BrowserWindow({
+    width: 600,
+    height: 300,
+    webPreferences: {
+      // --- !! IMPORTANT !! ---
+      // Disable 'contextIsolation' to allow 'nodeIntegration'
+      // 'contextIsolation' defaults to "true" as from Electron v12
+      contextIsolation: false,
+      nodeIntegration: true,
+    },
+    maximizable: false,
+    minimizable: false,
+    resizable: false
   });
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
-
-  mainWindow.once("ready-to-show", mainWindow.show);
+  secondaryWindow.loadFile("index.html");
 
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
@@ -35,6 +47,9 @@ function createWindow() {
   // Listen for window being closed
   mainWindow.on("closed", () => {
     mainWindow = null;
+  });
+  secondaryWindow.on("closed", () => {
+    secondaryWindow = null;
   });
 }
 
