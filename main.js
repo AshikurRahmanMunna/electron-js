@@ -34,12 +34,14 @@ function createWindow() {
     },
     maximizable: false,
     minimizable: false,
-    resizable: false
+    resizable: false,
+    parent: mainWindow,
+    vibrancy: true
   });
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
-  secondaryWindow.loadFile("index.html");
+  secondaryWindow.loadFile("secondary.html");
 
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
