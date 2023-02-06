@@ -275,6 +275,14 @@ duplexer3@^0.1.4:
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.5.tgz#0b5e4d7bad5de8901ea4440624c8e1d20099217e"
   integrity sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==
 
+electron-window-state@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/electron-window-state/-/electron-window-state-5.0.3.tgz#4f36d09e3f953d87aff103bf010f460056050aa8"
+  integrity sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg==
+  dependencies:
+    jsonfile "^4.0.0"
+    mkdirp "^0.5.1"
+
 electron@^9.0.0:
   version "9.4.4"
   resolved "https://registry.yarnpkg.com/electron/-/electron-9.4.4.tgz#2a74a0655a74bd326216672c5ae6ed3a44451446"
@@ -675,7 +683,7 @@ minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-mkdirp@^0.5.4:
+mkdirp@^0.5.1, mkdirp@^0.5.4:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.6.tgz#7def03d2432dcae4ba1d611445c48396062255f6"
   integrity sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==
