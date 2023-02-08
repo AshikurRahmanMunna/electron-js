@@ -4,6 +4,7 @@ const {
   BrowserWindow,
   desktopCapturer,
   webContents,
+  session,
 } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const fs = require("fs");
@@ -31,36 +32,11 @@ function createWindow() {
     },
   });
 
-  const wc = mainWindow.webContents;
+  const ses = mainWindow.webContents.session;
+  const defaultSession = session.defaultSession;
+  const partition = session.fromPartition("part1");
 
-  wc.on("login", (e, request, authInfo, callback) => {
-    console.log("Login");
-    callback("user", "password");
-  });
-
-  wc.on("did-navigate", (e, url, statusCode, message) => {
-    console.log(`Navigated to ${url}`);
-  });
-
-  // wc.on("new-window", (e, url) => {
-  //   console.log(`Creating window form ${url}`);
-  // })
-  // wc.on("did-finish-load", () => {
-  //   console.log("Everything finished loading");
-  // })
-  // wc.on("dom-ready", () => {
-  //   console.log("Dom loaded");
-  // });
-
-  // wc.on("media-started-playing", () => {
-  //   console.log("Video started playing");
-  // });
-  wc.on("context-menu", (e, params) => {
-    wc.executeJavaScript(`alert("udj")`);
-  });
-  // wc.on("media-paused", () => {
-  //   console.log("Video paused playing");
-  // });
+  ses.clearStorageData();
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
