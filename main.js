@@ -32,14 +32,49 @@ function createWindow() {
     },
   });
 
+  // secWindow = new BrowserWindow({
+  //   width: 800,
+  //   height: 600,
+  //   minWidth: 300,
+  //   minHeight: 150,
+  //   webPreferences: {
+  //     // --- !! IMPORTANT !! ---
+  //     // Disable 'contextIsolation' to allow 'nodeIntegration'
+  //     // 'contextIsolation' defaults to "true" as from Electron v12
+  //     // session: partition
+  //     partition: "persist:part1",
+  //   },
+  // });
+
   const ses = mainWindow.webContents.session;
   const defaultSession = session.defaultSession;
-  const partition = session.fromPartition("part1");
+  const partition = session.fromPartition("persist:part1");
 
-  ses.clearStorageData();
+  const getCookies = () => {
+    defaultSession.cookies
+      .get({})
+      .then((cookies) => console.log(cookies))
+      .catch((err) => console.log(err));
+  };
+
+  // ses.clearStorageData();
 
   // Load index.html into the new BrowserWindow
-  mainWindow.loadFile("index.html");
+  // mainWindow.loadFile("index.html");
+  mainWindow.loadURL("https://github.com/login");
+
+  const cookie = {
+    url: "https://myappdomain.com",
+    name: "cookie1",
+    value: "electron",
+  };
+
+  ses.cookies
+    .set(cookie)
+    .then(() => getCookies())
+    .catch((err) => console.log(err));
+
+  mainWindow.webContents.on("did-finish-load", getCookies);
 
   // Open DevTools - Remove for PRODUCTION!
 
