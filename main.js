@@ -13,6 +13,7 @@ const fs = require("fs");
 // be closed automatically when the JavaScript object is garbage collected.
 
 let mainWindow, secWindow;
+let downloadInterval;
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -57,11 +58,24 @@ function createWindow() {
       .catch((err) => console.log(err));
   };
 
+  defaultSession.on("will-download", (e, item, webContents) => {
+    const fileName = item.getFilename();
+    const fileSize = item.getTotalBytes();
+    item.setSavePath(app.getPath("downloads") + `/${fileName}`);
+    item.on("updated", (e, state) => {
+      const receivedBytes = item.getReceivedBytes();
+      if (state === "progressing" && receivedBytes) {
+        const progress = `${Math.round((receivedBytes / fileSize) * 100)}%`;
+        console.log(progress);
+      }
+    });
+  });
+
   // ses.clearStorageData();
 
   // Load index.html into the new BrowserWindow
-  // mainWindow.loadFile("index.html");
-  mainWindow.loadURL("https://github.com/login");
+  mainWindow.loadFile("index.html");
+  // mainWindow.loadURL("https://github.com/login");
 
   const cookie = {
     url: "https://myappdomain.com",
