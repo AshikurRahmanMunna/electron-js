@@ -33,12 +33,14 @@ function createWindow() {
     //   })
     //   .then((result) => console.log(result));
 
-    dialog.showSaveDialog({}).then((r) => {
-      const fileData = fs.readFileSync(__dirname + "/main.js", {
-        encoding: "utf-8",
+    dialog
+      .showSaveDialog({ nameFieldLabel: "file", buttonLabel: "Save the fuck" })
+      .then((r) => {
+        const fileData = fs.readFileSync(__dirname + "/main.js", {
+          encoding: "utf-8",
+        });
+        fs.writeFileSync(r.filePath + ".js", fileData, { encoding: "utf-8" });
       });
-      fs.writeFileSync(r.filePath + ".js", fileData, { encoding: "utf-8" });
-    });
   });
 
   // Load index.html into the new BrowserWindow
