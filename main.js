@@ -1,5 +1,5 @@
 // Modules
-const { app, BrowserWindow, dialog } = require("electron");
+const { app, BrowserWindow, dialog, globalShortcut } = require("electron");
 const fs = require("fs");
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -20,14 +20,9 @@ function createWindow() {
     },
   });
   const buttons = ["yes", "no", "maybe"];
-  mainWindow.webContents.on("did-finish-load", () => {
-    dialog
-      .showMessageBox(mainWindow, {
-        buttons,
-        title: "Select",
-        message: "Select One",
-      })
-      .then((b) => console.log(`User selected ${buttons[b.response]}`));
+  globalShortcut.register("CommandOrControl+G", () => {
+    console.log("G with command or control pressed");
+    app.quit();
   });
 
   // Load index.html into the new BrowserWindow
