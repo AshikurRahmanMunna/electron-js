@@ -1,50 +1,12 @@
 // Modules
-const {
-  app,
-  BrowserWindow,
-  dialog,
-  globalShortcut,
-  Menu,
-  MenuItem,
-} = require("electron");
-const fs = require("fs");
+const { app, BrowserWindow, globalShortcut, Menu } = require("electron");
+const mainMenuTemplate = require("./menus/mainMenuTemplate");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-let mainMenu = new Menu();
-
-let mainMenuItem1 = new MenuItem({
-  label: "Electron",
-  submenu: [
-    {
-      label: "Close App",
-      accelerator: "CommandOrControl+G",
-    },
-    {
-      label: "Item 2",
-      submenu: [
-        {
-          label: "Hello",
-        },
-        {
-          label: "Hi",
-        },
-        {
-          label: "By",
-        },
-      ],
-    },
-    {
-      label: "Item 3",
-    },
-    {
-      label: "Item 4",
-    },
-  ],
-});
-mainMenu.append(mainMenuItem1);
+let mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
