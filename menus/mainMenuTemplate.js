@@ -5,7 +5,7 @@ const mainMenuTemplate = [
       {
         label: "Close App",
         accelerator: "CommandOrControl+G",
-        role: "quitApp",
+        role: "quit",
       },
       {
         label: "Item 2",
