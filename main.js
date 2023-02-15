@@ -19,26 +19,15 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
-
+  const buttons = ["yes", "no", "maybe"];
   mainWindow.webContents.on("did-finish-load", () => {
-    // dialog
-    //   .showOpenDialog(mainWindow, {
-    //     defaultPath: app.getPath("desktop"),
-    //     properties: [
-    //       "createDirectory",
-    //       "multiSelections",
-    //       "openFile",
-    //       "openDirectory",
-    //     ],
-    //   })
-    //   .then((result) => console.log(result));
-
-    dialog.showSaveDialog({}).then((r) => {
-      const fileData = fs.readFileSync(__dirname + "/main.js", {
-        encoding: "utf-8",
-      });
-      fs.writeFileSync(r.filePath + ".js", fileData, { encoding: "utf-8" });
-    });
+    dialog
+      .showMessageBox(mainWindow, {
+        buttons,
+        title: "Select",
+        message: "Select One",
+      })
+      .then((b) => console.log(`User selected ${buttons[b.response]}`));
   });
 
   // Load index.html into the new BrowserWindow
