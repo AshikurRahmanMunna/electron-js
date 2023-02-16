@@ -6,7 +6,10 @@ const mainMenuTemplate = require("./menus/mainMenuTemplate");
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-let mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+let contextMenu = Menu.buildFromTemplate([
+  { label: "File", role: "fileMenu" },
+  { label: "Edit", role: "editMenu" },
+]);
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -25,7 +28,9 @@ function createWindow() {
     app.quit();
   });
 
-  Menu.setApplicationMenu(mainMenu);
+  mainWindow.webContents.on("context-menu", (e) => {
+    contextMenu.popup();
+  });
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
