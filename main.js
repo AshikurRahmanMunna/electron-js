@@ -1,18 +1,33 @@
 // Modules
-const { app, BrowserWindow, globalShortcut, Menu } = require("electron");
-const mainMenuTemplate = require("./menus/mainMenuTemplate");
+const electron = require("electron");
+const { app, BrowserWindow, Tray, Menu } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow, tray;
 
-let contextMenu = Menu.buildFromTemplate([
-  { label: "File", role: "fileMenu" },
-  { label: "Edit", role: "editMenu" },
+let trayMenu = Menu.buildFromTemplate([
+  { label: "Item 1" },
+  { label: "Item 2" },
+  { role: "quit" },
 ]);
+
+function createTray() {
+  tray = new Tray("icon@2x.png");
+  tray.setContextMenu(trayMenu);
+  tray.setToolTip("Master Electron");
+  tray.on("click", (e) => {
+    if (e.shiftKey) {
+      app.quit();
+    } else {
+      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+    }
+  });
+}
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
+  createTray();
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
@@ -23,13 +38,6 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
     },
-  });
-  globalShortcut.register("CommandOrControl+G", () => {
-    app.quit();
-  });
-
-  mainWindow.webContents.on("context-menu", (e) => {
-    contextMenu.popup();
   });
 
   // Load index.html into the new BrowserWindow
