@@ -1,33 +1,13 @@
 // Modules
 const electron = require("electron");
-const { app, BrowserWindow, Tray, Menu } = electron;
+const { app, BrowserWindow } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, tray;
-
-let trayMenu = Menu.buildFromTemplate([
-  { label: "Item 1" },
-  { label: "Item 2" },
-  { role: "quit" },
-]);
-
-function createTray() {
-  tray = new Tray("icon@2x.png");
-  tray.setContextMenu(trayMenu);
-  tray.setToolTip("Master Electron");
-  tray.on("click", (e) => {
-    if (e.shiftKey) {
-      app.quit();
-    } else {
-      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
-    }
-  });
-}
+let mainWindow;
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
-  createTray();
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
@@ -42,6 +22,22 @@ function createWindow() {
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
+
+  electron.powerMonitor.on("suspend", () => {
+    console.log("suspended");
+  });
+  electron.powerMonitor.on("on-ac", () => {
+    console.log("on ac power");
+  });
+  electron.powerMonitor.on("on-battery", () => {
+    console.log("on battery power");
+  });
+  electron.powerMonitor.on("lock-screen", () => {
+    console.log("screen locked");
+  });
+  electron.powerMonitor.on("unlock-screen", () => {
+    console.log("screen unlocked");
+  });
 
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
