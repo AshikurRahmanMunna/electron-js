@@ -1,6 +1,6 @@
 // Modules
 const electron = require("electron");
-const { app, BrowserWindow } = electron;
+const { app, BrowserWindow, screen } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,31 +20,24 @@ function createWindow() {
     },
   });
 
+  screen.on("display-metrics-changed", (e, display, metricsChanged) => {
+    console.log(metricsChanged);
+  });
+
+  const cursorInterval = setInterval(() => {
+    console.log(screen.getCursorScreenPoint());
+  }, 100);
+
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
 
-  electron.powerMonitor.on("suspend", () => {
-    console.log("suspended");
-  });
-  electron.powerMonitor.on("on-ac", () => {
-    console.log("on ac power");
-  });
-  electron.powerMonitor.on("on-battery", () => {
-    console.log("on battery power");
-  });
-  electron.powerMonitor.on("lock-screen", () => {
-    console.log("screen locked");
-  });
-  electron.powerMonitor.on("unlock-screen", () => {
-    console.log("screen unlocked");
-  });
-
   // Open DevTools - Remove for PRODUCTION!
-  // mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools()
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
     mainWindow = null;
+    clearInterval(cursorInterval);
   });
 }
 
