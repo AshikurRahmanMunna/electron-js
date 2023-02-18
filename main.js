@@ -20,24 +20,15 @@ function createWindow() {
     },
   });
 
-  screen.on("display-metrics-changed", (e, display, metricsChanged) => {
-    console.log(metricsChanged);
-  });
-
-  const cursorInterval = setInterval(() => {
-    console.log(screen.getCursorScreenPoint());
-  }, 100);
-
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
 
   // Open DevTools - Remove for PRODUCTION!
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
     mainWindow = null;
-    clearInterval(cursorInterval);
   });
 }
 

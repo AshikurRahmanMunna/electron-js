@@ -17,11 +17,23 @@
   <body style="user-select: none; -webkit-app-region: drag; padding-top: 20px">
     <h1 style="color: green">Hello Electron!</h1>
     <p>Build cross-platform desktop apps with JavaScript, HTML, and CSS</p>
-    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <a href="#" onclick="openWindow()">Ameliasoft Open</a>
+    <a href="#" onclick="closeWindow()">Ameliasoft Close</a>
 
     <script>
       // You can also require other files to run in this process
-      require("./renderer.js");
+      // require("./renderer.js");
+      let win;
+      function openWindow() {
+        win = window.open(
+          "https://www.ameliasoft.com",
+          "_blank",
+          "width=400,height=800,alwaysOnTop=true,frame=0"
+        );
+      }
+      function closeWindow() {
+        win.close();
+      }
     </script>
   </body>
 </html>
