@@ -1,5 +1,5 @@
 // Modules
-const { globalShortcut, desktopCapturer } = require("electron");
+const { globalShortcut, desktopCapturer, ipcMain } = require("electron");
 const electron = require("electron");
 const { writeFileSync } = require("fs");
 const takeScreenshot = require("./utils/takeScreenshot");
@@ -28,10 +28,25 @@ function createWindow() {
     },
   });
 
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow.webContents.send("mailbox", { data: "Hello there" });
+  });
+
   writeFileSync(
     "./path.json",
     JSON.stringify({ picture: app.getPath("pictures") })
   );
+
+  ipcMain.on("sync-message", (e, args) => {
+    setTimeout(() => {
+      e.returnValue = { data: "Sync loading completed" };
+    }, 3000);
+  });
+
+  ipcMain.on("channel1", (e, args) => {
+    e.sender.send("channel1-response", `I got it - ${args}`);
+    console.log(args);
+  });
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
