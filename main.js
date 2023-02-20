@@ -1,5 +1,8 @@
 // Modules
+const { globalShortcut, desktopCapturer } = require("electron");
 const electron = require("electron");
+const { writeFileSync } = require("fs");
+const takeScreenshot = require("./utils/takeScreenshot");
 const { app, BrowserWindow, screen } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -10,7 +13,12 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1000,
-    height: 800,
+    height: 600,
+    title: "Screenshot Taker",
+    minHeight: 300,
+    minWidth: 500,
+    center: true,
+    autoHideMenuBar: true,
     webPreferences: {
       // --- !! IMPORTANT !! ---
       // Disable 'contextIsolation' to allow 'nodeIntegration'
@@ -20,11 +28,16 @@ function createWindow() {
     },
   });
 
+  writeFileSync(
+    "./path.json",
+    JSON.stringify({ picture: app.getPath("pictures") })
+  );
+
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
 
   // Open DevTools - Remove for PRODUCTION!
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {

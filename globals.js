@@ -1,0 +1,3 @@
+exports.appPath = {
+  pictures: "",
+};
