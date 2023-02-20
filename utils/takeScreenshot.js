@@ -2,10 +2,10 @@ const { desktopCapturer } = require("electron");
 const { readFileSync, writeFileSync, existsSync, mkdirSync } = require("fs");
 const path = require("path");
 
-const takeScreenshot = (writeToDom = false) => {
+const takeScreenshot = (writeToDom = false, type = "screen") => {
   desktopCapturer
     .getSources({
-      types: ["screen"],
+      types: [type],
       thumbnailSize: {
         width: 1920,
         height: 1080,

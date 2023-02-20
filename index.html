@@ -12,10 +12,19 @@
         background: #fff;
         color: #000;
       }
+      .ss-btn {
+        padding: 10px 20px;
+        background: linear-gradient(45deg, #8206a9, #f9ac04);
+        color: white;
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 18px;
+      }
     </style>
   </head>
   <body style="user-select: none; -webkit-app-region: drag; padding-top: 20px">
-    <div style="width: 100%">
+    <div>
       <img
         src="https://cdn.pixabay.com/photo/2015/10/29/14/38/web-1012467__340.jpg"
         style="width: 100%; margin: 0 auto; display: block; margin-bottom: 10px"
@@ -23,19 +32,22 @@
         id="ss-img"
       />
     </div>
-    <button
-      id="ss-btn"
+    <div
       style="
-        padding: 10px 20px;
-        background: orange;
-        color: white;
-        border: none;
-        outline: none;
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       "
     >
-      Get Screenshot
-    </button>
+      <button id="ss-window-btn" class="ss-btn">Capture Window</button>
+      <button id="ss-full-btn" style="margin-left: 10px" class="ss-btn">
+        Capture Full Page
+      </button>
+      <button id="ss-scroll-btn" style="margin-left: 10px" class="ss-btn">
+        Capture Scrolling Page
+      </button>
+    </div>
     <script>
       require("./renderer.js");
     </script>
