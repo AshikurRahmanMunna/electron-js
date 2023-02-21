@@ -1,10 +1,20 @@
 // Modules
+const { ipcMain, dialog } = require("electron");
 const electron = require("electron");
 const { app, BrowserWindow } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+async function askFruit() {
+  const buttons = ["Apple", "Mango", "Grape"];
+  const choice = await dialog.showMessageBox({
+    title: "Choose a fruit",
+    buttons: buttons,
+  });
+  return buttons[choice.response];
+}
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -21,7 +31,12 @@ function createWindow() {
       // 'contextIsolation' defaults to "true" as from Electron v12
       contextIsolation: false,
       nodeIntegration: true,
+      enableRemoteModule: false,
     },
+  });
+
+  ipcMain.handle("ask-fruit", (e) => {
+    return askFruit();
   });
 
   // Load index.html into the new BrowserWindow
