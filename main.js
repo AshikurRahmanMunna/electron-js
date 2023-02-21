@@ -1,5 +1,4 @@
 // Modules
-const { ipcMain, dialog } = require("electron");
 const electron = require("electron");
 const { app, BrowserWindow } = electron;
 
@@ -7,14 +6,7 @@ const { app, BrowserWindow } = electron;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-async function askFruit() {
-  const buttons = ["Apple", "Mango", "Grape"];
-  const choice = await dialog.showMessageBox({
-    title: "Choose a fruit",
-    buttons: buttons,
-  });
-  return buttons[choice.response];
-}
+console.log(process.type);
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -35,15 +27,11 @@ function createWindow() {
     },
   });
 
-  ipcMain.handle("ask-fruit", (e) => {
-    return askFruit();
-  });
-
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
 
   // Open DevTools - Remove for PRODUCTION!
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
