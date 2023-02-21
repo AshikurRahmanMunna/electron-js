@@ -1,9 +1,6 @@
 // Modules
-const { globalShortcut, desktopCapturer, ipcMain } = require("electron");
 const electron = require("electron");
-const { writeFileSync } = require("fs");
-const takeScreenshot = require("./utils/takeScreenshot");
-const { app, BrowserWindow, screen } = electron;
+const { app, BrowserWindow } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,8 +10,7 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1000,
-    height: 600,
-    title: "Screenshot Taker",
+    height: 800,
     minHeight: 300,
     minWidth: 500,
     center: true,
@@ -26,26 +22,6 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
     },
-  });
-
-  mainWindow.webContents.on("did-finish-load", () => {
-    mainWindow.webContents.send("mailbox", { data: "Hello there" });
-  });
-
-  writeFileSync(
-    "./path.json",
-    JSON.stringify({ picture: app.getPath("pictures") })
-  );
-
-  ipcMain.on("sync-message", (e, args) => {
-    setTimeout(() => {
-      e.returnValue = { data: "Sync loading completed" };
-    }, 3000);
-  });
-
-  ipcMain.on("channel1", (e, args) => {
-    e.sender.send("channel1-response", `I got it - ${args}`);
-    console.log(args);
   });
 
   // Load index.html into the new BrowserWindow
