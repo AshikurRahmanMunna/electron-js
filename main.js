@@ -6,8 +6,6 @@ const { app, BrowserWindow } = electron;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-console.log(process.type);
-
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -31,7 +29,7 @@ function createWindow() {
   mainWindow.loadFile("index.html");
 
   // Open DevTools - Remove for PRODUCTION!
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {

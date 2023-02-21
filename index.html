@@ -32,14 +32,32 @@
         id="ss-img"
       />
     </div>
-    <button style="display: block" onclick="process.hang()" class="ask-btn">
-      Hang Process
-    </button>
-    <button style="display: block" onclick="process.crash()" class="ask-btn">
-      Crash Process
-    </button>
+    <button onclick="openSite()">Open site</button>
+    <button onclick="openImage()">Open Image</button>
+    <button onclick="openImageInFolder()">Open Image in Folder</button>
+    <button onclick="moveSplashToTrash()">Open Folder</button>
     <script>
       // require("./renderer.js");
+
+      const { shell } = require("electron");
+      const path = require("path");
+
+      const openSite = () => {
+        shell.openExternal("https://electronjs.org");
+      };
+
+      const splashPath = path.join(__dirname, "/splash.png");
+      const openImage = () => {
+        shell.openPath(splashPath);
+      };
+
+      const openImageInFolder = () => {
+        shell.showItemInFolder(splashPath);
+      };
+
+      const moveSplashToTrash = () => {
+        shell.moveItemToTrash(splashPath);
+      };
     </script>
   </body>
 </html>
