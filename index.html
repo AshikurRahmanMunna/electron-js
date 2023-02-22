@@ -32,31 +32,45 @@
         id="ss-img"
       />
     </div>
-    <button onclick="openSite()">Open site</button>
-    <button onclick="openImage()">Open Image</button>
-    <button onclick="openImageInFolder()">Open Image in Folder</button>
-    <button onclick="moveSplashToTrash()">Open Folder</button>
+    <button onclick="toPng()">PNG</button>
+    <button onclick="toJpg()">JPG</button>
+    <button onclick="toTag()">Show</button>
+    <img src="" alt="" style="width: 300px; display: block" id="show-img" />
     <script>
       // require("./renderer.js");
 
-      const { shell } = require("electron");
+      const { nativeImage, ipcRenderer } = require("electron");
       const path = require("path");
+      const fs = require("fs");
+      const splash = nativeImage.createFromPath(
+        path.join(__dirname, "/splash.png")
+      );
+      console.log(splash.getSize());
 
-      const openSite = () => {
-        shell.openExternal("https://electronjs.org");
+      const saveToDesktop = async (data, ext = "jpg") => {
+        const desktopPath = await ipcRenderer.invoke("app-path");
+        fs.writeFile(
+          path.join(desktopPath, `/splash.${ext}`),
+          data,
+          console.log
+        );
       };
 
-      const splashPath = path.join(__dirname, "/splash.png");
-      const openImage = () => {
-        shell.openPath(splashPath);
+      const toPng = (e) => {
+        const pngSplash = splash.toPNG();
+        saveToDesktop(pngSplash, "png");
       };
 
-      const openImageInFolder = () => {
-        shell.showItemInFolder(splashPath);
+      const toJpg = (e) => {
+        const jpgSplash = splash.toBitmap(100);
+        console.log(jpgSplash);
+        saveToDesktop(jpgSplash, "jpg");
       };
 
-      const moveSplashToTrash = () => {
-        shell.moveItemToTrash(splashPath);
+      const toTag = (e) => {
+        const dataSplash = splash.toDataURL();
+        const imgNode = document.getElementById("show-img");
+        imgNode.src = dataSplash;
       };
     </script>
   </body>
