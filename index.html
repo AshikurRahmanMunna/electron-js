@@ -32,45 +32,21 @@
         id="ss-img"
       />
     </div>
-    <button onclick="toPng()">PNG</button>
-    <button onclick="toJpg()">JPG</button>
-    <button onclick="toTag()">Show</button>
-    <img src="" alt="" style="width: 300px; display: block" id="show-img" />
+    <button onclick="makeUpper()">Make copied text uppercase</button>
+    <button onclick="showImage()">Show copied image</button>
+    <img src="" alt="" id="cb-img" style="width: 300px; display: block" />
     <script>
       // require("./renderer.js");
 
-      const { nativeImage, ipcRenderer } = require("electron");
-      const path = require("path");
-      const fs = require("fs");
-      const splash = nativeImage.createFromPath(
-        path.join(__dirname, "/splash.png")
-      );
-      console.log(splash.getSize());
-
-      const saveToDesktop = async (data, ext = "jpg") => {
-        const desktopPath = await ipcRenderer.invoke("app-path");
-        fs.writeFile(
-          path.join(desktopPath, `/splash.${ext}`),
-          data,
-          console.log
-        );
+      const { clipboard } = require("electron");
+      const makeUpper = () => {
+        const cbText = clipboard.readText();
+        clipboard.writeText(cbText.toUpperCase());
       };
 
-      const toPng = (e) => {
-        const pngSplash = splash.toPNG();
-        saveToDesktop(pngSplash, "png");
-      };
-
-      const toJpg = (e) => {
-        const jpgSplash = splash.toBitmap(100);
-        console.log(jpgSplash);
-        saveToDesktop(jpgSplash, "jpg");
-      };
-
-      const toTag = (e) => {
-        const dataSplash = splash.toDataURL();
-        const imgNode = document.getElementById("show-img");
-        imgNode.src = dataSplash;
+      const showImage = () => {
+        const image = clipboard.readImage();
+        document.getElementById("cb-img").src = image.toDataURL();
       };
     </script>
   </body>
