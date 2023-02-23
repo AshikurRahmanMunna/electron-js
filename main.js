@@ -1,17 +1,10 @@
 // Modules
 const electron = require("electron");
-const fs = require("fs");
 const { app, BrowserWindow, ipcMain } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
-app.disableHardwareAcceleration();
-
-ipcMain.handle("app-path", () => {
-  return app.getPath("desktop");
-});
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -21,7 +14,6 @@ function createWindow() {
     minHeight: 300,
     minWidth: 500,
     center: true,
-    show: false,
     autoHideMenuBar: true,
     webPreferences: {
       // --- !! IMPORTANT !! ---
@@ -30,26 +22,11 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
       enableRemoteModule: false,
-      offscreen: true,
     },
   });
 
-  mainWindow.webContents.on("did-finish-load", () => {
-    console.log(mainWindow.getTitle());
-    mainWindow.close();
-    mainWindow = null;
-  });
-
-  mainWindow.webContents.on("paint", (e, dirty, image) => {
-    fs.writeFileSync(
-      app.getPath("downloads") + `\\${Math.random() * 1000}`,
-      image.toJPEG(),
-      console.log
-    );
-  });
-
   // Load index.html into the new BrowserWindow
-  // mainWindow.loadFile("index.html");
+  mainWindow.loadFile("index.html");
 
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();

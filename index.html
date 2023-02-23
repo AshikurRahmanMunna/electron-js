@@ -32,22 +32,21 @@
         id="ss-img"
       />
     </div>
-    <button onclick="makeUpper()">Make copied text uppercase</button>
-    <button onclick="showImage()">Show copied image</button>
-    <img src="" alt="" id="cb-img" style="width: 300px; display: block" />
+    <p>App is now: <span id="status"></span></p>
     <script>
       // require("./renderer.js");
-
-      const { clipboard } = require("electron");
-      const makeUpper = () => {
-        const cbText = clipboard.readText();
-        clipboard.writeText(cbText.toUpperCase());
+      const setStatus = (status) => {
+        const statusNode = document.getElementById("status");
+        statusNode.innerText = status ? "Online" : "Offline";
       };
+      setStatus(navigator.onLine);
 
-      const showImage = () => {
-        const image = clipboard.readImage();
-        document.getElementById("cb-img").src = image.toDataURL();
-      };
+      window.addEventListener("online", () => {
+        setStatus(true);
+      });
+      window.addEventListener("offline", () => {
+        setStatus(false);
+      });
     </script>
   </body>
 </html>
