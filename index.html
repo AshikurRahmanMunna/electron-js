@@ -35,18 +35,12 @@
     <p>App is now: <span id="status"></span></p>
     <script>
       // require("./renderer.js");
-      const setStatus = (status) => {
-        const statusNode = document.getElementById("status");
-        statusNode.innerText = status ? "Online" : "Offline";
-      };
-      setStatus(navigator.onLine);
-
-      window.addEventListener("online", () => {
-        setStatus(true);
-      });
-      window.addEventListener("offline", () => {
-        setStatus(false);
-      });
+      setTimeout(() => {
+        notification = new Notification("Electron App", {
+          body: "Notify from electron app",
+        });
+        notification.onclick = (e) => console.log(e);
+      }, 2000);
     </script>
   </body>
 </html>
