@@ -20,11 +20,21 @@ function createWindow() {
       // --- !! IMPORTANT !! ---
       // Disable 'contextIsolation' to allow 'nodeIntegration'
       // 'contextIsolation' defaults to "true" as from Electron v12
-      // contextIsolation: false,
-      nodeIntegration: false,
-      preload: path.join(__dirname, "/preload.js"),
+      contextIsolation: false,
+      nodeIntegration: true,
     },
   });
+
+  let progress = 0.01;
+  const progressInterval = setInterval(() => {
+    mainWindow && mainWindow.setProgressBar(progress);
+    if (progress <= 1) {
+      progress += 0.01;
+    } else {
+      mainWindow.setProgressBar(-1);
+      clearInterval(progressInterval);
+    }
+  }, 100);
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("index.html");
