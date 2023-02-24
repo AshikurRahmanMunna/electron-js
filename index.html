@@ -32,15 +32,18 @@
         id="ss-img"
       />
     </div>
-    <p>App is now: <span id="status"></span></p>
+    <p>
+      Nodejs Version:
+      <script>
+        document.write(window.versions.node);
+      </script>
+      , Electron version:
+      <script>
+        document.write(window.versions.electron);
+      </script>
+    </p>
     <script>
       // require("./renderer.js");
-      setTimeout(() => {
-        notification = new Notification("Electron App", {
-          body: "Notify from electron app",
-        });
-        notification.onclick = (e) => console.log(e);
-      }, 2000);
     </script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 // Modules
 const electron = require("electron");
-const { app, BrowserWindow, ipcMain } = electron;
+const path = require("path");
+const { app, BrowserWindow } = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,9 +20,9 @@ function createWindow() {
       // --- !! IMPORTANT !! ---
       // Disable 'contextIsolation' to allow 'nodeIntegration'
       // 'contextIsolation' defaults to "true" as from Electron v12
-      contextIsolation: false,
-      nodeIntegration: true,
-      enableRemoteModule: false,
+      // contextIsolation: false,
+      nodeIntegration: false,
+      preload: path.join(__dirname, "/preload.js"),
     },
   });
 
